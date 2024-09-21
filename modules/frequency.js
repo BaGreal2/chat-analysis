@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import { log } from "./shared.js";
+import { log, extractWords } from "./shared.js";
 
 const formatFrequencyListToString = (list) => {
   let result = "";
@@ -25,15 +25,10 @@ const analyzeWordsFrequencyByUser = (userMessages, minWordLength) => {
       process.stdout.write(`${i}/${messages.length} \r`);
 
       const message = messages[i];
-      const words = message.split(" ");
+      const words = extractWords(message, minWordLength);
 
       for (var j = 0; j < words.length; j++) {
-        const word = words[j]
-          .toLowerCase()
-          .replace(/[.,\/#!$%\^&\*;:{}=\-_`"«»„“~()?+-]/g, "");
-        if (word.length < minWordLength) {
-          continue;
-        }
+        const word = words[j];
 
         if (!wordsFrequency.has(word)) {
           wordsFrequency.set(word, 1);
@@ -48,6 +43,7 @@ const analyzeWordsFrequencyByUser = (userMessages, minWordLength) => {
           };
         }
       }
+
       process.stdout.clearLine();
       process.stdout.cursorTo(0);
     }
@@ -66,13 +62,13 @@ export const analyzeWordsFrequency = (
   minWordLength,
   outputPath
 ) => {
-  const wordsFrequenct = analyzeWordsFrequencyByUser(
+  const wordsFrequency = analyzeWordsFrequencyByUser(
     userMessages,
     minWordLength
   );
   log("Word frequency analysis completed.", "log");
 
-  const sortedWordsFrequency = [...wordsFrequenct.entries()].sort(
+  const sortedWordsFrequency = [...wordsFrequency.entries()].sort(
     (a, b) => b[1] - a[1]
   );
 
@@ -83,7 +79,7 @@ export const analyzeWordsFrequency = (
         formatFrequencyListToString(sortedWordsFrequency)
       );
       log(
-        `List of all words sorted with frequency score written successfully to "${outputPath}" file!`,
+        `List of all words sorted by frequency written successfully to "${outputPath}" file!`,
         "log"
       );
     } catch (error) {

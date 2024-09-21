@@ -98,6 +98,8 @@ export const handleArguments = (args) => {
       programOption = "sentiment";
     } else if (["--word-frequency"].includes(args[i])) {
       programOption = "word-frequency";
+    } else if (["--word-length"].includes(args[i])) {
+      programOption = "word-length";
     } else {
       log(`Invalid argument ${args[i]}.`, "error");
       printUsage();
@@ -147,4 +149,19 @@ export const extractMessagesByUser = (chatInfo, ignoreEmojis) => {
   }
 
   return userMessages;
+};
+
+export const extractWords = (message, minWordLength) => {
+  const cleanWords = message
+    .split(" ")
+    .map((word) => {
+      const cleanWord = word
+        .toLowerCase()
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`"«»„“~()?+-]/g, "");
+      if (cleanWord.length > minWordLength) {
+        return cleanWord;
+      }
+    })
+    .filter((word) => word);
+  return cleanWords;
 };

@@ -5,6 +5,7 @@ import {
 } from "./modules/shared.js";
 import { analyzeSentiment } from "./modules/sentiment.js";
 import { analyzeWordsFrequency } from "./modules/frequency.js";
+import { analyzeWordsLength } from "./modules/length.js";
 
 const args = process.argv;
 const { chatInfo, outputPath, ignoreEmojis, programOption, minWordLength } =
@@ -24,6 +25,10 @@ switch (programOption) {
   case "word-frequency":
     log("Analyzing word frequency.", "info");
     analyzeWordsFrequency(userMessages, minWordLength, outputPath);
+    break;
+  case "word-length":
+    log("Analyzing word length.", "info");
+    analyzeWordsLength(userMessages, minWordLength, outputPath);
     break;
   default:
     log("Invalid program option.", "error");
