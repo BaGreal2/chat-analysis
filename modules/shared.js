@@ -41,10 +41,10 @@ export const printUsage = () => {
     "--sentiment [default]                       - analyze sentiment of the chat by user."
   );
   log(
-    "--word-frequency                            - get the most fequent word in the chat and list of all words with frequency."
+    "--word-length                               - get the longest word in the chat and list of all words with length."
   );
   log(
-    "--word-length                               - get the longest word in the chat and list of all words with length."
+    "--word-frequency                            - get the most fequent word in the chat and list of all words with frequency."
   );
   log("-h, --help                                  - get program usage.");
   log("");
