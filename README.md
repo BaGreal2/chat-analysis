@@ -44,6 +44,7 @@ There are some additional options you can pass to the program:
 | Command specifier | Description |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `--ignore-emojis` | Ignores all messages containing emojis. Useful for improving sentiment analysis. |
-| `--limit-min-word-length <number>` | Limits the analysis to words with a length greater than the specified number. Useful for focusing on significant words in word frequency or word length analyses. |
+| `--limit-min-word-length <number>` | Limits the analysis to words with a length greater than the specified number, including the number. Useful for focusing on significant words in word frequency or word length analyses. |
+| `--limit-max-word-length <number>` | Limits the analysis to words with a length lower than the specified number, including the number. Useful for focusing on significant words in word frequency or word length analyses. |
 | `-o, --output <output_file_path>` | Specifies a file to save the detailed output from any command. |
 | `-h, --help` | Displays help information for using the program. |
