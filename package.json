@@ -1,0 +1,12 @@
+{
+  "name": "chat-analysis",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "Artem Krachenko",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "multilang-sentiment": "^2.0.0"
+  }
+}
