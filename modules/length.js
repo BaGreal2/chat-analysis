@@ -37,7 +37,8 @@ const analyzeWordsLengthByUser = (
         if (!wordsLength.has(word)) {
           wordsLength.set(word, word.length);
         }
-        if (wordsLength.length < wordsLength.get(word)) {
+
+        if (longestWord.length < wordsLength.get(word)) {
           longestWord = {
             word,
             length: wordsLength.get(word),
@@ -48,6 +49,7 @@ const analyzeWordsLengthByUser = (
       process.stdout.clearLine();
       process.stdout.cursorTo(0);
     }
+
     log(`Longest word for ${username}: "${longestWord.word}"`, "info");
   }
 

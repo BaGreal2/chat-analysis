@@ -173,12 +173,13 @@ export const extractWords = (message, minWordLength, maxWordLength) => {
         .toLowerCase()
         .replace(/[.,\/#!$%\^&\*;:{}=\-_`"«»„“~()?+-]/g, "");
       if (
-        cleanWord.length >= minWordLength &&
-        cleanWord.length <= maxWordLength
+        cleanWord.length < minWordLength ||
+        cleanWord.length > maxWordLength
       ) {
-        return cleanWord;
+        return null;
       }
+      return cleanWord;
     })
-    .filter((word) => word);
+    .filter((word) => word !== null);
   return cleanWords;
 };
