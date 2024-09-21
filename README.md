@@ -1,32 +1,49 @@
 # chatan
 
-Chatan (short for "Chat Analysis") is a CLI program designed to analyze and give user some statistics from their [https://telegram.org/](Telegram) chats.
+Chatan (short for "Chat Analysis") is a CLI tool designed to analyze and give user some statistics from their [Telegram](https://telegram.org/) chats.
 
 ## It's use is simple and straightforward:
 
-Firstly, you install the dependencies:
+To use chatan, you'll first need to export the desired Telegram chat as a JSON file.
+Follow the instructions below to export your chat data via the [Telegram Desktop](https://desktop.telegram.org/?setln=en) app.
+
+> **Note for MacOS Users:** Make sure to download Telegram Desktop directly from the website, not from the App Store.
+
+### How to export a chats:
+
+1. Open Telegram Desktop and navigate to the chat you want to analyze.
+2. Click on the three dots in the top-right corner.
+3. Select the "Export chat history" option.
+4. Uncheck all items and set the format to **JSON**.
+5. Wait for the export to finish.
+
+### Installation
+
+Install the required dependencies:
 
 ```bash
 npm install
 ```
 
-And then you can just run it:
+### Running the program
+
+Run the program with:
 
 ```bash
 node index.js <file_path> [arguments]
 ```
 
-**By default**, it will run a [https://www.wikiwand.com/en/articles/Sentiment](sentiment) analysis performed for every individual user, but there are more other options:
+**By default**, chatan performs a [sentiment analysis](https://www.wikiwand.com/en/articles/Sentiment) for each user in the chat. You can also specify different analysis modes via options:
 | Command specifier | Description |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| --sentiment | This options is set **by default** and will output most positive/negative messages for each user based on an extremely simple sentiment analysis. If you specify the output path, it will save all messages sorted by sentiment score to a specified file. |
-| --word-frequency | Will output most frequent word for each user. If output path is specified, will output all words sorted by the amount of occurrences. |
-| --word-length | Will output longest word for each user. If output path is specified, will output all words sorted by length. |
+| `--sentiment` | The default command. It outputs the most positive/negative messages for each user using a simple sentiment analysis. If an output path is specified, it saves all messages sorted by sentiment score to the specified file. |
+| `--word-frequency` | Outputs the most frequent word for each user. If an output path is specified, it saves all words sorted by their frequency. |
+| `--word-length` | Outputs the longest word for each user. If an output path is specified, it saves all words sorted by their length. |
 
-There are some additional options you can pass to that program:
+There are some additional options you can pass to the program:
 | Command specifier | Description |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| --ignore-emojis | With this option specified, program will ignore all messages that contain emojis. It is useful for sentiment analysis. |
-| --limit-min-word-length \<number\> | With this option you can limit word length that is considered. Words with length lower than specified value will be ignored in a "by-word" analysis. |
-| -o, --output \<output_file_path\> | Specifies an output file path for additional information to be saved from each command. |
-| -h, --help | Will display help message. |
+| `--ignore-emojis` | Ignores all messages containing emojis. Useful for improving sentiment analysis. |
+| `--limit-min-word-length <number>` | Limits the analysis to words with a length greater than the specified number. Useful for focusing on significant words in word frequency or word length analyses. |
+| `-o, --output <output_file_path>` | Specifies a file to save the detailed output from any command. |
+| `-h, --help` | Displays help information for using the program. |
