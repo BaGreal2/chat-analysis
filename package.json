@@ -1,10 +1,10 @@
 {
-  "name": "chat-analysis",
+  "name": "chatan",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "author": "Artem Krachenko",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "dependencies": {
     "multilang-sentiment": "^2.0.0"
