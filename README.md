@@ -1,6 +1,6 @@
 # chatan
 
-Chatan (short for "Chat Analysis") is a CLI program designed to analyze and give user some statistics from their (Telegram)[https://telegram.org/] chats.
+Chatan (short for "Chat Analysis") is a CLI program designed to analyze and give user some statistics from their [https://telegram.org/](Telegram) chats.
 
 ## It's use is simple and straightforward:
 
