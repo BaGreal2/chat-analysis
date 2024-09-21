@@ -10,7 +10,11 @@ const formatFrequencyListToString = (list) => {
   return result;
 };
 
-const analyzeWordsFrequencyByUser = (userMessages, minWordLength) => {
+const analyzeWordsFrequencyByUser = (
+  userMessages,
+  minWordLength,
+  maxWordLength
+) => {
   const wordsFrequency = new Map();
 
   for (const [username, messages] of userMessages) {
@@ -25,7 +29,7 @@ const analyzeWordsFrequencyByUser = (userMessages, minWordLength) => {
       process.stdout.write(`${i}/${messages.length} \r`);
 
       const message = messages[i];
-      const words = extractWords(message, minWordLength);
+      const words = extractWords(message, minWordLength, maxWordLength);
 
       for (var j = 0; j < words.length; j++) {
         const word = words[j];
@@ -60,11 +64,13 @@ const analyzeWordsFrequencyByUser = (userMessages, minWordLength) => {
 export const analyzeWordsFrequency = (
   userMessages,
   minWordLength,
+  maxWordLength,
   outputPath
 ) => {
   const wordsFrequency = analyzeWordsFrequencyByUser(
     userMessages,
-    minWordLength
+    minWordLength,
+    maxWordLength
   );
   log("Word frequency analysis completed.", "log");
 

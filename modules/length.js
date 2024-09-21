@@ -10,7 +10,11 @@ const formatLengthListToString = (list) => {
   return result;
 };
 
-const analyzeWordsLengthByUser = (userMessages, minWordLength) => {
+const analyzeWordsLengthByUser = (
+  userMessages,
+  minWordLength,
+  maxWordLength
+) => {
   const wordsLength = new Map();
 
   for (const [username, messages] of userMessages) {
@@ -25,7 +29,7 @@ const analyzeWordsLengthByUser = (userMessages, minWordLength) => {
       process.stdout.write(`${i}/${messages.length} \r`);
 
       const message = messages[i];
-      const words = extractWords(message, minWordLength);
+      const words = extractWords(message, minWordLength, maxWordLength);
 
       for (var j = 0; j < words.length; j++) {
         const word = words[j];
@@ -50,8 +54,17 @@ const analyzeWordsLengthByUser = (userMessages, minWordLength) => {
   return wordsLength;
 };
 
-export const analyzeWordsLength = (userMessages, minWordLength, outputPath) => {
-  const wordsLength = analyzeWordsLengthByUser(userMessages, minWordLength);
+export const analyzeWordsLength = (
+  userMessages,
+  minWordLength,
+  maxWordLength,
+  outputPath
+) => {
+  const wordsLength = analyzeWordsLengthByUser(
+    userMessages,
+    minWordLength,
+    maxWordLength
+  );
   log("Word length analysis completed.", "log");
 
   const sortedWordsLength = Array.from(wordsLength).sort((a, b) => b[1] - a[1]);

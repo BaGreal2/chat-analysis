@@ -32,7 +32,10 @@ export const printUsage = () => {
     "--ignore-emojies [optional]                 - ignore messages with emojis."
   );
   log(
-    '--limit-min-word-length <number> [optional] - limit minimum length of a word to be considered, only works in "by-word" options.'
+    '--limit-min-word-length <number> [optional] - inclusive, limit minimum length of a word to be considered, only works in "by-word" options.'
+  );
+  log(
+    '--limit-max-word-length <number> [optional] - inclusive, limit maximum length of a word to be considered, only works in "by-word" options.'
   );
   log(
     "-o, --output <output_file_path> [optional]  - output file path, if not provided output won't be saved."
@@ -72,6 +75,7 @@ export const handleArguments = (args) => {
   let ignoreEmojis = false;
   let programOption = "sentiment";
   let minWordLength = 0;
+  let maxWordLength = Infinity;
 
   for (let i = 3; i < args.length; i++) {
     if (["--output", "-o"].includes(args[i])) {
@@ -91,6 +95,15 @@ export const handleArguments = (args) => {
       }
 
       minWordLength = parseInt(args[i + 1]);
+      i++;
+    } else if (["--limit-max-word-length"].includes(args[i])) {
+      if (!args[i + 1]) {
+        log("No maximum length provided.", "error");
+        printUsage();
+        process.exit(1);
+      }
+
+      maxWordLength = parseInt(args[i + 1]);
       i++;
     } else if (["--ignore-emojis"].includes(args[i])) {
       ignoreEmojis = true;
@@ -115,6 +128,7 @@ export const handleArguments = (args) => {
     ignoreEmojis,
     programOption,
     minWordLength,
+    maxWordLength,
   };
 };
 
@@ -151,14 +165,17 @@ export const extractMessagesByUser = (chatInfo, ignoreEmojis) => {
   return userMessages;
 };
 
-export const extractWords = (message, minWordLength) => {
+export const extractWords = (message, minWordLength, maxWordLength) => {
   const cleanWords = message
     .split(" ")
     .map((word) => {
       const cleanWord = word
         .toLowerCase()
         .replace(/[.,\/#!$%\^&\*;:{}=\-_`"«»„“~()?+-]/g, "");
-      if (cleanWord.length > minWordLength) {
+      if (
+        cleanWord.length >= minWordLength &&
+        cleanWord.length <= maxWordLength
+      ) {
         return cleanWord;
       }
     })

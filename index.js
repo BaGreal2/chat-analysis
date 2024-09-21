@@ -8,10 +8,21 @@ import { analyzeWordsFrequency } from "./modules/frequency.js";
 import { analyzeWordsLength } from "./modules/length.js";
 
 const args = process.argv;
-const { chatInfo, outputPath, ignoreEmojis, programOption, minWordLength } =
-  handleArguments(args);
+const {
+  chatInfo,
+  outputPath,
+  ignoreEmojis,
+  programOption,
+  minWordLength,
+  maxWordLength,
+} = handleArguments(args);
 
-log(`Minimum word length set to ${minWordLength}.`, "info");
+if (minWordLength !== 0) {
+  log(`Minimum word length set to ${minWordLength}.`, "info");
+}
+if (maxWordLength !== Infinity) {
+  log(`Maximum word length set to ${maxWordLength}.`, "info");
+}
 log(`Analyzing "${chatInfo.name}" chat.`, "info");
 
 const userMessages = extractMessagesByUser(chatInfo, ignoreEmojis);
@@ -24,11 +35,16 @@ switch (programOption) {
     break;
   case "word-frequency":
     log("Analyzing word frequency.", "info");
-    analyzeWordsFrequency(userMessages, minWordLength, outputPath);
+    analyzeWordsFrequency(
+      userMessages,
+      minWordLength,
+      maxWordLength,
+      outputPath
+    );
     break;
   case "word-length":
     log("Analyzing word length.", "info");
-    analyzeWordsLength(userMessages, minWordLength, outputPath);
+    analyzeWordsLength(userMessages, minWordLength, maxWordLength, outputPath);
     break;
   default:
     log("Invalid program option.", "error");
