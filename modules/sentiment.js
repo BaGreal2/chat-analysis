@@ -13,8 +13,12 @@ const formatSentimentListToString = (list) => {
 
 const analyzeSentimentByUser = (userMessages) => {
   const messagesWithScore = [];
+  const averageSentimentByUser = new Map();
+
   for (const [username, messages] of userMessages) {
     log(`Analyzing user ${username}.`, "log");
+
+    let nonNeutralMessagesCount = 0;
 
     const mostPositiveMessage = {
       message: "",
@@ -36,6 +40,20 @@ const analyzeSentimentByUser = (userMessages) => {
         score: messageSentiment.score,
       });
 
+      if (messageSentiment.score !== 0) {
+        nonNeutralMessagesCount++;
+
+        if (!averageSentimentByUser.has(username)) {
+          averageSentimentByUser.set(username, messageSentiment.score);
+        } else {
+          averageSentimentByUser.set(
+            username,
+            (averageSentimentByUser.get(username) + messageSentiment.score) /
+              nonNeutralMessagesCount
+          );
+        }
+      }
+
       if (mostPositiveMessage.score < messageSentiment.score) {
         mostPositiveMessage.message = message;
         mostPositiveMessage.score = messageSentiment.score;
@@ -51,6 +69,12 @@ const analyzeSentimentByUser = (userMessages) => {
     }
 
     log(
+      `Average sentiment for ${username}: "${averageSentimentByUser.get(
+        username
+      )}"`,
+      "info"
+    );
+    log(
       `Most positive message for ${username}: "${mostPositiveMessage.message}"`,
       "info"
     );
@@ -60,11 +84,15 @@ const analyzeSentimentByUser = (userMessages) => {
     );
   }
 
-  return messagesWithScore;
+  return {
+    messagesWithScore,
+    averageSentimentByUser,
+  };
 };
 
 export const analyzeSentiment = (userMessages, outputPath) => {
-  const messagesWithScore = analyzeSentimentByUser(userMessages);
+  const { messagesWithScore, averageSentimentByUser } =
+    analyzeSentimentByUser(userMessages);
   log("Chat sentiment analysis completed.", "log");
 
   messagesWithScore.sort((a, b) => b.score - a.score);
@@ -85,6 +113,13 @@ export const analyzeSentiment = (userMessages, outputPath) => {
         "error"
       );
     }
+  }
+
+  for (const [username, averageSentiment] of averageSentimentByUser) {
+    log(
+      `Average sentiment for ${username}: ${averageSentiment.toFixed(2)}.`,
+      "info"
+    );
   }
 
   const mostPositiveMessage = messagesWithScore[0];
